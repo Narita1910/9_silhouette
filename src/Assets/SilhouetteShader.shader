@@ -4,7 +4,7 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Thickness ("Thickness", Range(0,10)) = 1.
-        _OutlineColor ("Outline Color", COlor) = (1,0,0,1)
+        _OutlineColor ("Outline Color", COlor) = (0,0,0,0)
     }
     SubShader
     {
@@ -54,7 +54,7 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = _OutlineColor;
+                fixed4 col = (1,_Time,0,_Time);
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;

@@ -1,6 +1,6 @@
-﻿Shader "Unlit/ScatterShader"
+﻿Shader "Unlit/NewUnlitShader 1"
 {
-    Properties
+   Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Thickness ("Thickness", Range(0,01)) = 0.001
@@ -30,6 +30,7 @@
     float4 _MainTex_ST;
     float _Thickness;
     fixed4 _OutlineColor;
+    float i=0.2;
 
     v2f vert_sub (appdata v, float2 offset)
     {
@@ -44,6 +45,7 @@
     fixed4 frag (v2f i) : SV_Target
     {
         // sample the texture
+        
         fixed4 col = fixed4(_OutlineColor.rgb, tex2D(_MainTex, i.uv).a * _OutlineColor.a);
         // apply fog
         UNITY_APPLY_FOG(i.fogCoord, col);
@@ -60,32 +62,21 @@
         Zwrite Off
         ZTest Less
 
-        Pass
-        {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-
-            v2f vert (appdata v)
-            {
-                return vert_sub(v, float2(-_Thickness, 0));
-            }
-            ENDCG
-        }
-
-        Pass
-        {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-
-            v2f vert (appdata v)
-            {
-                return vert_sub(v, float2(-_Thickness, 0));
-            }
-            ENDCG
-        }
+     
 
         
+
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            v2f vert (appdata v)
+            {
+                return vert_sub(v, float2(+_Thickness, 0));
+            }
+            ENDCG
+        }
     }
 }
